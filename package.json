@@ -12,7 +12,7 @@
     "chromedriver": "^91.0.1",
     "geckodriver": "^2.0.0",
     "jest": "^27.0.3",
-    "jest-html-reporter": "^3.4.1",
+    "jest-html-reporter": "^3.4.1"
   },
   "scripts": {
     "test": "jest",
