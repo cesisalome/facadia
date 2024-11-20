@@ -12,11 +12,12 @@
     "chromedriver": "^91.0.1",
     "geckodriver": "^2.0.0",
     "jest": "^27.0.3",
-    "jest-html-reporter": "^3.4.1"
+    "jest-html-reporter": "^3.4.1",
+    "live-server": "^1.2.2"
   },
   "scripts": {
     "test": "jest",
-    "dev": "set NODE_ENV=dev && node index.html"
+    "dev": "set NODE_ENV=dev && live-server"
   },
   "keywords": [],
   "author": "",
