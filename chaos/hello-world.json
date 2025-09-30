@@ -1,0 +1,9 @@
+{
+    "title": "Hello World Chaos Experiment",
+    "description": "Un test simple avec Chaos Toolkit.",
+    "steady-state-hypothesis": {
+        "title": "L'application répond",
+        "probes": []
+    },
+    "method": []
+}
