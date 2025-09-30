@@ -1,0 +1,106 @@
+{
+  "chaoslib-version": "1.44.0",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "node": "Dylan",
+  "experiment": {
+    "title": "Test HTTP Facada avec latence",
+    "description": "VÃ©rifie que Facada rÃ©pond en HTTP 200 mÃªme aprÃ¨s une pause.",
+    "steady-state-hypothesis": {
+      "title": "Facada est accessible",
+      "probes": [
+        {
+          "type": "probe",
+          "name": "facada-responds",
+          "tolerance": 200,
+          "provider": {
+            "type": "http",
+            "timeout": 3,
+            "url": "http://127.0.0.1:5500",
+            "method": "GET"
+          }
+        }
+      ]
+    },
+    "method": [
+      {
+        "type": "action",
+        "name": "pause-service",
+        "provider": {
+          "type": "process",
+          "path": "timeout",
+          "arguments": "/t 5"
+        }
+      }
+    ],
+    "dry": null
+  },
+  "start": "2025-09-30T19:54:54.548424+00:00",
+  "status": "failed",
+  "deviated": false,
+  "steady_states": {
+    "before": {
+      "steady_state_met": false,
+      "probes": [
+        {
+          "activity": {
+            "type": "probe",
+            "name": "facada-responds",
+            "tolerance": 200,
+            "provider": {
+              "type": "http",
+              "timeout": 3,
+              "url": "http://127.0.0.1:5500",
+              "method": "GET"
+            }
+          },
+          "output": null,
+          "start": "2025-09-30T19:54:54.553217+00:00",
+          "status": "failed",
+          "exception": [
+            "Traceback (most recent call last):\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connection.py\", line 198, in _new_conn\n    sock = connection.create_connection(\n        (self._dns_host, self.port),\n    ...<2 lines>...\n        socket_options=self.socket_options,\n    )\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\util\\connection.py\", line 85, in create_connection\n    raise err\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\util\\connection.py\", line 73, in create_connection\n    sock.connect(sa)\n    ~~~~~~~~~~~~^^^^\n",
+            "ConnectionRefusedError: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée\n",
+            "\nThe above exception was the direct cause of the following exception:\n\n",
+            "Traceback (most recent call last):\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connectionpool.py\", line 787, in urlopen\n    response = self._make_request(\n        conn,\n    ...<10 lines>...\n        **response_kw,\n    )\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connectionpool.py\", line 493, in _make_request\n    conn.request(\n    ~~~~~~~~~~~~^\n        method,\n        ^^^^^^^\n    ...<6 lines>...\n        enforce_content_length=enforce_content_length,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connection.py\", line 445, in request\n    self.endheaders()\n    ~~~~~~~~~~~~~~~^^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\http\\client.py\", line 1331, in endheaders\n    self._send_output(message_body, encode_chunked=encode_chunked)\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\http\\client.py\", line 1091, in _send_output\n    self.send(msg)\n    ~~~~~~~~~^^^^^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\http\\client.py\", line 1035, in send\n    self.connect()\n    ~~~~~~~~~~~~^^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connection.py\", line 276, in connect\n    self.sock = self._new_conn()\n                ~~~~~~~~~~~~~~^^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connection.py\", line 213, in _new_conn\n    raise NewConnectionError(\n        self, f\"Failed to establish a new connection: {e}\"\n    ) from e\n",
+            "urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x00000217586A1160>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée\n",
+            "\nThe above exception was the direct cause of the following exception:\n\n",
+            "Traceback (most recent call last):\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\requests\\adapters.py\", line 644, in send\n    resp = conn.urlopen(\n        method=request.method,\n    ...<9 lines>...\n        chunked=chunked,\n    )\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connectionpool.py\", line 841, in urlopen\n    retries = retries.increment(\n        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]\n    )\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\util\\retry.py\", line 519, in increment\n    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=5500): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000217586A1160>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))\n",
+            "\nDuring handling of the above exception, another exception occurred:\n\n",
+            "Traceback (most recent call last):\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\chaoslib\\provider\\http.py\", line 51, in run_http_activity\n    r = s.get(\n        url,\n    ...<3 lines>...\n        verify=verify_tls,\n    )\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\requests\\sessions.py\", line 602, in get\n    return self.request(\"GET\", url, **kwargs)\n           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\requests\\sessions.py\", line 589, in request\n    resp = self.send(prep, **send_kwargs)\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\requests\\sessions.py\", line 703, in send\n    r = adapter.send(request, **kwargs)\n",
+            "  File \"C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\requests\\adapters.py\", line 677, in send\n    raise ConnectionError(e, request=request)\n",
+            "requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=5500): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000217586A1160>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))\n",
+            "\nDuring handling of the above exception, another exception occurred:\n\n",
+            "chaoslib.exceptions.ActivityFailed: failed to connect to http://127.0.0.1:5500: HTTPConnectionPool(host='127.0.0.1', port=5500): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000217586A1160>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))\n"
+          ],
+          "end": "2025-09-30T19:54:56.679069+00:00",
+          "duration": 2.125852,
+          "tolerance_met": false
+        }
+      ]
+    },
+    "after": null,
+    "during": []
+  },
+  "run": [],
+  "rollbacks": [],
+  "end": "2025-09-30T19:54:56.680746+00:00",
+  "duration": 2.1325199604034424
+}
