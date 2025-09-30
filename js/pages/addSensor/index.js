@@ -10,51 +10,58 @@ const AddSensor = {
                         <div class="add-sensor-page-page-main-top-header">
                             <h2 data-testid="add-sensor-title" class="section-title">Ajout d'un nouveau capteur</h2>
                         </div>
-                        <form class="add-sensor-form" action="#" method="POST">
+                        <form class="add-sensor-form" id="add-sensor-form" action="#" method="POST">
                             <fieldset>
                                 <legend>Informations de base du capteur</legend>
                                 <div class="form-group">
-                                    <label for="">ID du capteur</label>
-                                    <input type="text" placeholder="123456">
+                                    <label for="sensor-name">Nom du capteur</label>
+                                    <input id="sensor-name" name="name" type="text" placeholder="TempSensor" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Status du capteur</label>
-                                    <select name="" id="">
-                                        <option value="on">Actif</option>
-                                        <option value="off">Inactif</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Marque du capteur</label>
-                                    <input type="text" placeholder="facadiaRT">
+                                    <label for="sensor-type">Type du capteur</label>
+                                    <input id="sensor-type" name="type" type="text" placeholder="temperature" required>
                                 </div>
                             </fieldset>
-                            <fieldset>
-                                <legend>Coordonnées géographiques du capteur</legend>
-                                <div class="form-group">
-                                    <label for="">Lattitude du capteur</label>
-                                    <input class="lat-input" type="text" placeholder="facadiaRT">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Longitude du capteur</label>
-                                    <input class="lng-input" type="text" placeholder="facadiaRT">
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Technicien rattaché</legend>
-                                <div class="form-group">
-                                    <label for="">ID du technicen</label>
-                                    <input type="text" placeholder="123456">
-                                </div>
-                            </fieldset>
+                            <!-- Autres champs conservés pour l'UI -->
                             <div>
                                 <button class="submit-btn" type="submit">Ajouter le capteur</button>
                             </div>
+                            <div id="sensor-message" style="margin-top:1em;"></div>
                         </form>
                     </main>
                 </div>
             </div>
         `
+    },
+    afterRender: () => {
+        const form = document.getElementById('add-sensor-form');
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = form.elements['name'].value;
+                const type = form.elements['type'].value;
+                const messageDiv = document.getElementById('sensor-message');
+                try {
+                    const res = await fetch('http://localhost:3001/sensors', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, type })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        messageDiv.textContent = `Capteur ajouté avec succès (id: ${data.id})`;
+                        messageDiv.style.color = 'green';
+                        form.reset();
+                    } else {
+                        messageDiv.textContent = data.error || 'Erreur lors de l\'ajout du capteur';
+                        messageDiv.style.color = 'red';
+                    }
+                } catch (err) {
+                    messageDiv.textContent = 'Erreur de connexion au backend';
+                    messageDiv.style.color = 'red';
+                }
+            });
+        }
     }
 }
 
