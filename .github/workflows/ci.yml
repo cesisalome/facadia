@@ -19,4 +19,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run backend tests
-        run: npm test
+        run: node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage
