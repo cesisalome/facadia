@@ -1,0 +1,17 @@
+{
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+        "<rootDir>/js/__tests__/setup.js"
+    ],
+    "testMatch": [
+        "<rootDir>/js/__tests__/**/*.test.js"
+    ],
+    "moduleFileExtensions": [
+        "js",
+        "json"
+    ],
+    "transform": {
+        "^.+\\.js$": "babel-jest"
+    },
+    "verbose": true
+}
