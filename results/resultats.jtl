@@ -1,2 +1,0 @@
-timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
-1759321878327,28,GET /meteo Paris,400,Bad Request,Quick Load Test 1-1,text,false,,312,138,1,1,http://localhost:3001/meteo?lat48.85&lng2.35,25,0,19
