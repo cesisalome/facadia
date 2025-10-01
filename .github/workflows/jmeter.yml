@@ -2,17 +2,32 @@ name: CI - JMeter Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   jmeter-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup JMeter
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install backend deps
+        run: |
+          cd backend
+          npm install
+
+      - name: Start backend
+        run: |
+          cd backend
+          node server.js &
+          sleep 5   # attendre que le serveur démarre
+
+      - name: Install JMeter
         run: |
           wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz
           tar -xvzf apache-jmeter-5.6.3.tgz
@@ -20,7 +35,6 @@ jobs:
 
       - name: Run JMeter tests
         run: |
-          mkdir -p results/html
           jmeter -n -t jmeter/testFacadia.jmx -l results/resultats.jtl -e -o results/html
 
       - name: Upload JMeter Results
