@@ -14,12 +14,13 @@ jobs:
 
       - name: Setup JMeter
         run: |
-          sudo apt-get update
-          sudo apt-get install -y jmeter
+          wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz
+          tar -xvzf apache-jmeter-5.6.3.tgz
+          echo "$PWD/apache-jmeter-5.6.3/bin" >> $GITHUB_PATH
 
       - name: Run JMeter tests
         run: |
-          mkdir -p results
+          mkdir -p results/html
           jmeter -n -t jmeter/testFacadia.jmx -l results/resultats.jtl -e -o results/html
 
       - name: Upload JMeter Results
