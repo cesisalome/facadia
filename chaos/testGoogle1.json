@@ -1,0 +1,31 @@
+{
+    "title": "Test HTTP Facada avec latence",
+    "description": "Vérifie que Facada répond en HTTP 200 même après une pause.",
+    "steady-state-hypothesis": {
+        "title": "Facada est accessible",
+        "probes": [
+            {
+                "type": "probe",
+                "name": "facada-responds",
+                "tolerance": 200,
+                "provider": {
+                    "type": "http",
+                    "timeout": 5,
+                    "url": "http://127.0.0.1:5500",
+                    "method": "GET"
+                }
+            }
+        ]
+    },
+    "method": [
+        {
+            "type": "action",
+            "name": "pause-service",
+            "provider": {
+                "type": "process",
+                "path": "timeout",
+                "arguments": "/t 120"
+            }
+        }
+    ]
+}
