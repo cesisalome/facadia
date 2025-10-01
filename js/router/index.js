@@ -32,9 +32,13 @@ const findComponentByPath = (path, routes) => routes.find(r => r.path.match(new 
 
 const bindEventListener = () => {
     if (parseLocation() === '/') {
-        handleSignInForm()
+        handleSignInForm();
     } else if (parseLocation() === '/home') {
-        Pagination.handlePagination()
+        Pagination.handlePagination();
+    } else if (parseLocation() === '/add-sensor') {
+        if (typeof AddSensor.afterRender === 'function') {
+            AddSensor.afterRender();
+        }
     }
 }
 
