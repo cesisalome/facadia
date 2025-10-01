@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.1.9",
     "babel-jest": "^27.0.2",
     "chromedriver": "^91.0.1",
+    "cypress": "^15.3.0",
     "geckodriver": "^2.0.0",
     "jest": "^27.0.3",
     "jest-html-reporter": "^3.4.1",
@@ -17,7 +18,13 @@
   },
   "scripts": {
     "test": "jest",
-    "dev": "set NODE_ENV=dev && live-server"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=__tests__",
+    "test:verbose": "jest --verbose",
+    "dev": "set NODE_ENV=dev && live-server",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "keywords": [],
   "author": "",
