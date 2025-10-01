@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "Tests d'intégration - Météo",
+    "_postman_id": "12345678-abcd-efgh-ijkl-1234567890ab",
+    "description": "Tests d'intégration entre l'application web locale et l'API Open-Meteo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Appel direct Open-Meteo (Paris)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&current=temperature_2m",
+          "protocol": "https",
+          "host": ["api", "open-meteo", "com"],
+          "path": ["v1", "forecast"],
+          "query": [
+            { "key": "latitude", "value": "48.85" },
+            { "key": "longitude", "value": "2.35" },
+            { "key": "current", "value": "temperature_2m" }
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has current temperature\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.current).to.have.property(\"temperature_2m\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Appel via application locale (Paris)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/meteo?ville=Paris",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["meteo"],
+          "query": [
+            { "key": "ville", "value": "Paris" }
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has temperature field\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"temperature_2m\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
