@@ -19,6 +19,7 @@ jobs:
 
       - name: Run JMeter tests
         run: |
+          mkdir -p results
           jmeter -n -t jmeter/testFacadia.jmx -l results/resultats.jtl -e -o results/html
 
       - name: Upload JMeter Results
