@@ -18,6 +18,10 @@
   },
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=__tests__",
+    "test:verbose": "jest --verbose",
     "dev": "set NODE_ENV=dev && live-server",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
