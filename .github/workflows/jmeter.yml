@@ -1,0 +1,29 @@
+name: CI - JMeter Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  jmeter-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JMeter
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jmeter
+
+      - name: Run JMeter tests
+        run: |
+          mkdir -p results
+          jmeter -n -t jmeter/testFacadia.jmx -l results/resultats.jtl -e -o results/html
+
+      - name: Upload JMeter Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-report
+          path: results/html
