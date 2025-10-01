@@ -55,7 +55,7 @@ const Home = {
                             <h2 data-testid="home-sensors-title" class="section-title">Vos capteurs</h2>
                         </div>
                         ${Home.renderSensorsCard(sensors)}
-                        ${Pagination.render(sensors.length)}
+                        ${Pagination.render(Array.isArray(sensors) ? sensors.length : 0)}
                     </main>
                 </div>
             </div>
