@@ -21,52 +21,52 @@ describe('AddSensor Component Tests', () => {
             expect(html).toContain('add-sensor-page')
             expect(html).toContain('add-sensor-main-wrapper')
             expect(html).toContain('add-sensor-page-main')
-            
+
             // Check page title
             expect(html).toContain('Ajout d\'un nouveau capteur')
             expect(html).toContain('data-testid="add-sensor-title"')
-            
+
             // Check that header is included
             expect(html).toContain('main-header')
         })
 
         it('should render the form with all required elements', () => {
             const html = AddSensor.render()
-            
+
             // Check form structure
             expect(html).toContain('add-sensor-form')
             expect(html).toContain('id="add-sensor-form"')
             expect(html).toContain('method="POST"')
-            
+
             // Check fieldset and legend
             expect(html).toContain('<fieldset>')
             expect(html).toContain('Informations de base du capteur')
-            
+
             // Check form fields
             expect(html).toContain('id="sensor-name"')
             expect(html).toContain('name="name"')
             expect(html).toContain('placeholder="TempSensor"')
             expect(html).toContain('required')
-            
+
             expect(html).toContain('id="sensor-type"')
             expect(html).toContain('name="type"')
             expect(html).toContain('placeholder="temperature"')
-            
+
             // Check labels
             expect(html).toContain('Nom du capteur')
             expect(html).toContain('Type du capteur')
-            
+
             // Check submit button
             expect(html).toContain('Ajouter le capteur')
             expect(html).toContain('type="submit"')
-            
+
             // Check message div
             expect(html).toContain('id="sensor-message"')
         })
 
         it('should render form fields with proper CSS classes', () => {
             const html = AddSensor.render()
-            
+
             expect(html).toContain('form-group')
             expect(html).toContain('submit-btn')
             expect(html).toContain('section-title')
@@ -85,7 +85,7 @@ describe('AddSensor Component Tests', () => {
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
             const messageDiv = document.querySelector('#sensor-message')
-            
+
             expect(nameInput.value).toBe('')
             expect(typeInput.value).toBe('')
             expect(messageDiv.textContent).toBe('')
@@ -94,11 +94,11 @@ describe('AddSensor Component Tests', () => {
         it('should accept user input in form fields', () => {
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
-            
+
             // Simulate user input
             nameInput.value = 'TestSensor'
             typeInput.value = 'humidity'
-            
+
             expect(nameInput.value).toBe('TestSensor')
             expect(typeInput.value).toBe('humidity')
         })
@@ -121,26 +121,26 @@ describe('AddSensor Component Tests', () => {
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
             const messageDiv = document.querySelector('#sensor-message')
-            
+
             // Fill form
             nameInput.value = 'TestSensor'
             typeInput.value = 'temperature'
-            
+
             // Submit form
             const submitEvent = new Event('submit', {
                 bubbles: true,
                 cancelable: true
             })
             form.dispatchEvent(submitEvent)
-            
+
             // Wait for async operations
             await new Promise(resolve => setTimeout(resolve, 0))
-            
+
             // Check success message
             expect(messageDiv.textContent).toContain('Capteur ajouté avec succès')
             expect(messageDiv.textContent).toContain('id: 123')
             expect(messageDiv.style.color).toBe('green')
-            
+
             // Check form is reset
             expect(nameInput.value).toBe('')
             expect(typeInput.value).toBe('')
@@ -157,25 +157,25 @@ describe('AddSensor Component Tests', () => {
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
             const messageDiv = document.querySelector('#sensor-message')
-            
+
             // Fill form
             nameInput.value = 'ExistingSensor'
             typeInput.value = 'temperature'
-            
+
             // Submit form
             const submitEvent = new Event('submit', {
                 bubbles: true,
                 cancelable: true
             })
             form.dispatchEvent(submitEvent)
-            
+
             // Wait for async operations
             await new Promise(resolve => setTimeout(resolve, 0))
-            
+
             // Check error message
             expect(messageDiv.textContent).toBe('Capteur avec ce nom existe déjà')
             expect(messageDiv.style.color).toBe('red')
-            
+
             // Form should not be reset on error
             expect(nameInput.value).toBe('ExistingSensor')
             expect(typeInput.value).toBe('temperature')
@@ -192,18 +192,18 @@ describe('AddSensor Component Tests', () => {
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
             const messageDiv = document.querySelector('#sensor-message')
-            
+
             nameInput.value = 'TestSensor'
             typeInput.value = 'temperature'
-            
+
             const submitEvent = new Event('submit', {
                 bubbles: true,
                 cancelable: true
             })
             form.dispatchEvent(submitEvent)
-            
+
             await new Promise(resolve => setTimeout(resolve, 0))
-            
+
             expect(messageDiv.textContent).toBe('Erreur lors de l\'ajout du capteur')
             expect(messageDiv.style.color).toBe('red')
         })
@@ -216,18 +216,18 @@ describe('AddSensor Component Tests', () => {
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
             const messageDiv = document.querySelector('#sensor-message')
-            
+
             nameInput.value = 'TestSensor'
             typeInput.value = 'temperature'
-            
+
             const submitEvent = new Event('submit', {
                 bubbles: true,
                 cancelable: true
             })
             form.dispatchEvent(submitEvent)
-            
+
             await new Promise(resolve => setTimeout(resolve, 0))
-            
+
             expect(messageDiv.textContent).toBe('Erreur de connexion au backend')
             expect(messageDiv.style.color).toBe('red')
         })
@@ -241,18 +241,18 @@ describe('AddSensor Component Tests', () => {
             const form = document.querySelector('#add-sensor-form')
             const nameInput = document.querySelector('#sensor-name')
             const typeInput = document.querySelector('#sensor-type')
-            
+
             nameInput.value = 'MySensor'
             typeInput.value = 'pressure'
-            
+
             const submitEvent = new Event('submit', {
                 bubbles: true,
                 cancelable: true
             })
             form.dispatchEvent(submitEvent)
-            
+
             await new Promise(resolve => setTimeout(resolve, 0))
-            
+
             // Check that fetch was called with correct parameters
             expect(fetch).toHaveBeenCalledWith('http://localhost:3001/sensors', {
                 method: 'POST',
@@ -266,7 +266,7 @@ describe('AddSensor Component Tests', () => {
         it('should render complete add sensor page with all components integrated', () => {
             document.body.innerHTML = `<div id="root">${AddSensor.render()}</div>`
             AddSensor.afterRender()
-            
+
             // Test that all major components are present in DOM
             const addSensorPage = document.querySelector('.add-sensor-page')
             const headerElement = document.querySelector('.main-header')
@@ -276,7 +276,7 @@ describe('AddSensor Component Tests', () => {
             const typeInput = document.querySelector('#sensor-type')
             const submitButton = document.querySelector('.submit-btn')
             const messageDiv = document.querySelector('#sensor-message')
-            
+
             expect(addSensorPage).not.toBeNull()
             expect(headerElement).not.toBeNull()
             expect(addSensorTitle).not.toBeNull()
@@ -285,7 +285,7 @@ describe('AddSensor Component Tests', () => {
             expect(typeInput).not.toBeNull()
             expect(submitButton).not.toBeNull()
             expect(messageDiv).not.toBeNull()
-            
+
             // Check that form fields are properly configured
             expect(nameInput.hasAttribute('required')).toBe(true)
             expect(typeInput.hasAttribute('required')).toBe(true)

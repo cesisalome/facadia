@@ -13,5 +13,25 @@
     "transform": {
         "^.+\\.js$": "babel-jest"
     },
-    "verbose": true
+    "verbose": true,
+    "collectCoverageFrom": [
+        "js/**/*.js",
+        "!js/**/*.test.js",
+        "!js/__tests__/**",
+        "!js/samples/**"
+    ],
+    "coverageThreshold": {
+        "global": {
+            "branches": 15,
+            "functions": 30,
+            "lines": 45,
+            "statements": 45
+        }
+    },
+    "coverageReporters": [
+        "text",
+        "text-summary",
+        "html",
+        "lcov"
+    ]
 }
